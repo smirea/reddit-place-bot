@@ -1,5 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -19,10 +20,20 @@ if (false) {
     });
 }
 
+// NOTE: this will break when/if this project is ever built and run from dist/
+const rootDir = path.join(__dirname, '../');
+const cacheDir = path.join(rootDir, 'cache');
+
 export default {
+    rootDir,
+    cacheDir,
+    /**
+     * Do not download the canvas image more that every X seconds
+     */
+    canvasRefreshFrequencySeconds: 15,
     credentials: (JSON.parse(process.env.BOT_CREDENTIALS!) as string[][])
         .map(([username, password]) => ({
             username,
             password,
         })),
-};
+} as const;

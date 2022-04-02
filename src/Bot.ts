@@ -24,8 +24,6 @@ export default class Bot {
         const cookies = await login(this.credentials);
         const { sub } = jwt.decode(cookies.token_v2) as { sub: string };
 
-        console.log(cookies, sub)
-
         this.graphqlClient = axios.create({
             headers: {
                 'authorization': `Bearer ${sub}`,
@@ -64,7 +62,6 @@ export default class Bot {
 
             return data;
         } catch (ex) {
-            console.log('㏒ | console.error(ex);');// ㏒
             console.error(ex);
             console.error(ex.response.data);
             return null;

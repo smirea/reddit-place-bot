@@ -11,9 +11,4 @@ async function init() {
 
 }
 
-async function getCurrentImage() {
-    const { data: { url } } = await axios.get('https://canvas.codes/canvas');
-    return url;
-}
-
 init();
