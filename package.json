@@ -1,0 +1,25 @@
+{
+    "name": "reddit-place-bot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "ts-node -T src/index.ts",
+        "dev": "ts-node-dev -T src/index.ts"
+    },
+    "dependencies": {
+        "axios": "^0.26.1",
+        "dotenv": "^16.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "ts-node": "^10.7.0",
+        "ts-node-dev": "^1.1.8",
+        "tslib": "^2.3.1",
+        "typescript": "^4.6.3"
+    },
+    "devDependencies": {
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/lodash": "^4.14.181",
+        "@types/node": "^17.0.23"
+    }
+}
