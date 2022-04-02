@@ -4,7 +4,8 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "ts-node -T src/index.ts",
+        "start:bot": "ts-node -T src/index.ts",
+        "start:ui": "parcel client/index.html",
         "dev": "ts-node-dev -T src/index.ts"
     },
     "dependencies": {
@@ -18,8 +19,23 @@
         "typescript": "^4.6.3"
     },
     "devDependencies": {
+        "@parcel/transformer-sass": "2.4.1",
         "@types/jsonwebtoken": "^8.5.8",
         "@types/lodash": "^4.14.181",
-        "@types/node": "^17.0.23"
+        "@types/node": "^17.0.23",
+        "@types/react": "^17.0.43",
+        "@types/react-dom": "^17.0.14",
+        "buffer": "^6.0.3",
+        "crypto-browserify": "^3.12.0",
+        "events": "^3.3.0",
+        "os-browserify": "^0.3.0",
+        "parcel": "^2.4.1",
+        "path-browserify": "^1.0.1",
+        "process": "^0.11.10",
+        "querystring-es3": "^0.2.1",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "stream-browserify": "^3.0.0",
+        "util": "^0.12.4"
     }
 }

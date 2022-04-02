@@ -10,3 +10,4 @@ yarn-error.log
 /tmp*
 package-lock.json
 dist
+.parcel-cache
