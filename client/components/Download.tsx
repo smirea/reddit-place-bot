@@ -15,9 +15,9 @@ const Download: React.FC<{ data: DesignData }> = ({ data }) => {
             for (let x = 0; x < width; ++x) {
                 if (data[y][x] == null) continue;
                 if (x < boundingBox[0]) boundingBox[0] = x;
-                if (x > boundingBox[2]) boundingBox[2] = x + 1;
+                if (x >= boundingBox[2]) boundingBox[2] = x + 1;
                 if (y < boundingBox[1]) boundingBox[1] = y;
-                if (y > boundingBox[3]) boundingBox[3] = y + 1;
+                if (y >= boundingBox[3]) boundingBox[3] = y + 1;
             }
         }
 
