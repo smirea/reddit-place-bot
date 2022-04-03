@@ -50,6 +50,5 @@ yarn start:bot
     - only place tiles that are different
 - To Do
     - track cooldown status between restarts
-    - handle errors, especially unforeseen timeout errors
     - import designs in the UI
     - use an ip pool and parallel bots, maybe with lambdas, maybe with something else

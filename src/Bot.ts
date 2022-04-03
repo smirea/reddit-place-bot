@@ -46,7 +46,9 @@ export default class Bot {
         return this.graphqlClient!.post('https://gql-realtime-2.reddit.com/query', payload);
     }
 
-    async setPixel({ x, y, color }: { x: number; y: number; color: keyof typeof COLORS }) {
+    async setPixel({ x, y, color }: { x: number; y: number; color: keyof typeof COLORS }): Promise<{ ok: boolean; error?: any; }> {
+        if (!this.available) return { ok: false, error: 'not available, cooldown' }
+
         // support multiple canvases
         const canvasIndex = config.place.width * Math.floor(y / 1000) + Math.floor(x / 1000);
         const originalX = x;
@@ -81,11 +83,24 @@ export default class Bot {
                 query: 'mutation setPixel($input: ActInput!) {\n  act(input: $input) {\n    data {\n      ... on BasicMessage {\n        id\n        data {\n          ... on GetUserCooldownResponseMessageData {\n            nextAvailablePixelTimestamp\n            __typename\n          }\n          ... on SetPixelResponseMessageData {\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n',
             });
 
-            return data;
+            if (data.errors?.length) {
+                const errors: Array<{ message: string; extensions: Record<string, any> }> = data.errors;
+                const ratelimited = errors.find(x => x.message === 'Ratelimited');
+                let error: any = errors;
+
+                if (ratelimited) {
+                    this.cooldownTime = ratelimited.extensions.nextAvailablePixelTs * 1000;
+                    error = 'ratelimited until: ' + new Date(this.cooldownTime);
+                }
+
+                return { ok: false, error };
+            }
+
+            return { ok: true };
         } catch (ex) {
             console.error(ex);
             console.error(ex.response.data);
-            return null;
+            return { ok: false, error: ex.response?.data ?? ex };
         }
     }
 }

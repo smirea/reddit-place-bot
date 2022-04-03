@@ -68,7 +68,9 @@ export default class BotPool {
                     continue top;
                 }
 
-                if (!await bot.setPixel(job)) {
+                const { error } = await bot.setPixel(job);
+                if (error) {
+                    console.error(chalk.bold.red('[ERROR]'), error);
                     // placing a pixel failed, likely due to timeout, re-queue job
                     jobs.push(job);
                 }
