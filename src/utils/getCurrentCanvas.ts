@@ -22,8 +22,12 @@ type Return = {
 type CanvasApiReturn = {
     ok: boolean;
     ts: number;
-    canvas_left: string;
-    canvas_right: string;
+    quadrants: {
+        top_left: string;
+        top_right: string;
+        bottom_left: string;
+        bottom_right: string;
+    };
 }
 
 export default async function getCurrentCanvas(): Promise<Return> {
@@ -32,15 +36,19 @@ export default async function getCurrentCanvas(): Promise<Return> {
     if (!data.ok) throw new Error('getCavas: not ok :(');
     if (cachedData?.ts === data.ts) return { ...cachedData, isOldCanvas: true };
 
-    const [left, right] = await Promise.all([
-        loadImage(data.canvas_left),
-        loadImage(data.canvas_right),
+    const [topLeft, topRight, bottomLeft, bottomRight] = await Promise.all([
+        loadImage(data.quadrants.top_left),
+        loadImage(data.quadrants.top_right),
+        loadImage(data.quadrants.bottom_left),
+        loadImage(data.quadrants.bottom_right),
     ]);
-    const canvas = createCanvas(2000, 1000);
+    const canvas = createCanvas(2000, 2000);
     const ctx = canvas.getContext('2d');
 
-    ctx.drawImage(left, 0, 0);
-    ctx.drawImage(right, 1000, 0);
+    ctx.drawImage(topLeft, 0, 0);
+    ctx.drawImage(topRight, 1000, 0);
+    ctx.drawImage(bottomLeft, 0, 1000);
+    ctx.drawImage(bottomRight, 1000, 1000);
 
     if (config.storeImagesOnDisk) {
         const filePath = path.join(config.cacheDir + '/canvas_' + data.ts + '.png');
