@@ -14,3 +14,5 @@ export interface LoginCookies {
 export type ColorId = typeof COLORS[keyof typeof COLORS]['id'];
 
 export type ColorArr = [r: number, g: number, b: number, a: number];
+
+export type DesignData = (ColorId | null)[][];

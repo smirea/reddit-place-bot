@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 
 import { COLORS } from '../../src/utils/constants';
-import type { ColorId } from '../../src/typeDefs';
-import { downloadBlob } from '../utils/download';
-
-type Data = (ColorId | null)[][];
+import type { ColorId, DesignData } from '../../src/typeDefs';
+import Download from './Download';
 
 const Canvas: React.FC = () => {
     const [pixelSize, setPixelSize] = useState<'S' | 'M' | 'L'>('L');
@@ -13,7 +11,7 @@ const Canvas: React.FC = () => {
     const [height, setHeight] = useState(50);
     const [swatch, setSwatch] = useState<ColorId>(COLORS.yellow.id);
     const [painting, setPainting] = useState(false);
-    const [data, setData] = useState<Data>([]);
+    const [data, setData] = useState<DesignData>([]);
 
     useEffect(() => {
         setData(
@@ -44,35 +42,6 @@ const Canvas: React.FC = () => {
     const onMouseLeave = () => {
         setPainting(false);
     };
-
-    const handleDownload = () => {
-        const boundingBox = [width, height, -1, -1];
-        for (let y = 0; y < height; ++y) {
-            for (let x = 0; x < width; ++x) {
-                if (data[y][x] == null) continue;
-                if (x < boundingBox[0]) boundingBox[0] = x;
-                if (x > boundingBox[2]) boundingBox[2] = x + 1;
-                if (y < boundingBox[1]) boundingBox[1] = y;
-                if (y > boundingBox[3]) boundingBox[3] = y + 1;
-            }
-        }
-
-        const cropWidth = boundingBox[2] - boundingBox[0];
-        const cropHeight = boundingBox[3] - boundingBox[1];
-        const croppedData = new Array(cropHeight).fill(null).map(() => new Array(cropWidth).fill(null));
-
-        for (let y = boundingBox[1]; y < boundingBox[3]; ++y) {
-            for (let x = boundingBox[0]; x < boundingBox[2]; ++x) {
-                croppedData[y - boundingBox[1]][x - boundingBox[0]] = data[y][x];
-            }
-        }
-
-        downloadBlob(
-            `bot-image_${cropWidth}x${cropHeight}.json`,
-            'application/json',
-            JSON.stringify(croppedData),
-        );
-    }
 
     if (!data.length) return null;
 
@@ -109,7 +78,7 @@ const Canvas: React.FC = () => {
             </div>
 
             <div className='actions'>
-                <button type='button' onClick={handleDownload}>Export</button>
+                <Download data={data} />
             </div>
         </div>
     </div>
