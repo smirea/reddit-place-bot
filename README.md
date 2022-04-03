@@ -24,7 +24,7 @@ There is a simple UI to design patterns. Run:
 yarn start:ui
 ```
 
-And then go to [http://localhost:1234]()
+And then go to [http://localhost:1234](http://localhost:1234)
 
 ## Running
 
