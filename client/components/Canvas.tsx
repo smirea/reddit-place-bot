@@ -9,7 +9,7 @@ const Canvas: React.FC = () => {
     const [pixelSize, setPixelSize] = useState<'S' | 'M' | 'L'>('L');
     const [width, setWidth] = useState(50);
     const [height, setHeight] = useState(50);
-    const [swatch, setSwatch] = useState<ColorId>(COLORS.yellow.id);
+    const [swatch, setSwatch] = useState<ColorId | null>(COLORS.yellow.id);
     const [painting, setPainting] = useState(false);
     const [data, setData] = useState<DesignData>([]);
 
@@ -46,14 +46,25 @@ const Canvas: React.FC = () => {
     if (!data.length) return null;
 
     return <div>
-        <div className='colors'>
+        <div className='swatches'>
+            <div
+                className='swatch'
+                style={{ backgroundColor: '#eef' }}
+                onClick={() => setSwatch(null)}
+                data-selected={swatch === null}
+                data-color='empty'
+                draggable='false'
+            />
+
             {_.uniqBy(Object.values(COLORS), 'id').map(clr =>
                 <div
                     key={clr.id}
-                    className='color'
+                    className='swatch'
                     style={{ backgroundColor: clr.color }}
                     onClick={() => setSwatch(clr.id)}
                     data-selected={clr.id === swatch}
+                    data-color={clr.name}
+                    draggable='false'
                 />
             )}
         </div>

@@ -44,13 +44,13 @@
     }
 }
 
-.colors {
+.swatches {
     display: flex;
     margin-bottom: 1rem;
 
     > * + * { margin-left: .25rem; }
 
-    .color {
+    .swatch {
         z-index: 10;
         box-shadow: 0 0 0 1px #999;
         border-radius: 2px;
@@ -61,6 +61,7 @@
         user-select: none;
 
         &:hover {
+            z-index: 30;
             transform: scale(1.5);
         }
 
@@ -68,6 +69,22 @@
             z-index: 20;
             box-shadow: 0 0 1px 2px #333;
             transform: scale(1.5);
+        }
+
+        &[data-color=empty] {
+            position: relative;
+            margin-right: 1rem;
+
+            &:after {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background-color: red;
+                content: '';
+                transform: translateY(-1px);
+            }
         }
     }
 }
