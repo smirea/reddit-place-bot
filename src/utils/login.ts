@@ -18,7 +18,7 @@ export default async function login({ username, password }: Credentials): Promis
 
     if (fs.existsSync(cacheFile)) {
         const cache = require(cacheFile) as CachedSession;
-        if (cache.time + 0.9 * 3600e3 <= Date.now()) return cache.cookies;
+        if (cache.time + 0.9 * 3600e3 >= Date.now()) return cache.cookies;
     }
 
     const response = await axios.get('https://www.reddit.com/login', { withCredentials: true });
