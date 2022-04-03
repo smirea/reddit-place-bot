@@ -54,9 +54,9 @@ export default class Bot {
         console.log(
             '%s Placing a %s tile on %s x %s',
             chalk.gray(`[Bot ${this.credentials.username.padEnd(20)}]`),
-            chalk.bold(COLORS[color].name),
-            chalk.cyan(x),
-            chalk.cyan(y)
+            chalk.bold(COLORS[color].name.padEnd(12)),
+            chalk.cyan(String(x).padStart(4)),
+            chalk.cyan(String(y).padStart(4))
         );
 
         try {

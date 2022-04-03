@@ -74,6 +74,9 @@ const Download: React.FC<{ data: DesignData }> = ({ data }) => {
             />
         </div> */}
         <button type='button' onClick={handleDownload}>Export</button>
+        <div>
+            After exporting, make sure to edit the <b>.env</b> file and add the path and origin
+        </div>
     </div>
 }
 

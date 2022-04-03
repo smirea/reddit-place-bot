@@ -5,8 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start:bot": "ts-node -T src/index.ts",
-        "start:ui": "parcel client/index.html",
-        "dev": "ts-node-dev -T src/index.ts"
+        "start:ui": "parcel client/index.html"
     },
     "dependencies": {
         "axios": "^0.26.1",
