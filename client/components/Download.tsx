@@ -4,8 +4,8 @@ import { downloadBlob } from '../utils/download';
 
 const Download: React.FC<{ data: DesignData }> = ({ data }) => {
     const [name, setName] = useState('');
-    const [originX, setOriginX] = useState(0);
-    const [originY, setOriginY] = useState(0);
+    // const [originX, setOriginX] = useState(0);
+    // const [originY, setOriginY] = useState(0);
     const width = data[0].length;
     const height = data.length;
 
@@ -32,14 +32,14 @@ const Download: React.FC<{ data: DesignData }> = ({ data }) => {
         }
 
         downloadBlob(
-            `bot-design_${name}_x-${originX}_y-${originY}_size-${cropWidth}x${cropHeight}.json`,
+            `bot-design_${name}_size-${cropWidth}x${cropHeight}.json`,
             'application/json',
             JSON.stringify(croppedData),
         );
 
         setName('');
-        setOriginX(0);
-        setOriginY(0);
+        // setOriginX(0);
+        // setOriginY(0);
     }
 
     return <div className='download'>
@@ -49,7 +49,7 @@ const Download: React.FC<{ data: DesignData }> = ({ data }) => {
             onChange={e => setName(e.target.value)}
             placeholder='name'
         />
-        <div className='origin'>
+        {/* <div className='origin'>
             <div>X:</div>
             <input
                 type='number'
@@ -72,7 +72,7 @@ const Download: React.FC<{ data: DesignData }> = ({ data }) => {
                 max={1999}
                 step={1}
             />
-        </div>
+        </div> */}
         <button type='button' onClick={handleDownload}>Export</button>
     </div>
 }
