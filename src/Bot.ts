@@ -66,7 +66,8 @@ export default class Bot {
         );
 
         try {
-            this.cooldownTime = Date.now() + 5 * 60e3;
+            // placing a tile exactly every 5 minutes will get you banned
+            this.cooldownTime = Date.now() + 8 * 60e3 + _.random(5 * 60e3);
 
             const { data } = await this.graphql({
                 operationName: 'setPixel',
