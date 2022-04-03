@@ -4,16 +4,18 @@ import { Canvas, createCanvas, loadImage } from 'canvas';
 import config from '../config';
 import path from 'path';
 
-let cachedData: undefined | {
-    timestamp: number;
-    canvas: Canvas;
-};
+let cachedData: undefined | ({ timestamp: number; } & Return);
 
-export default async function getCanvas() {
+type Return = {
+    canvas: Canvas;
+    ctx: ReturnType<Canvas['getContext']>;
+}
+
+export default async function getCurrentCanvas(): Promise<Return> {
     const seconds = Math.floor(Date.now() / 1000);
     const timestamp = seconds - seconds % config.canvasRefreshFrequencySeconds;
 
-    if (cachedData?.timestamp === timestamp) return cachedData.canvas;
+    if (cachedData?.timestamp === timestamp) return cachedData;
 
     const res = await axios.get('https://canvas.codes/canvas');
     const data: { ok: boolean; canvas_left: string; canvas_right: string } = res.data;
@@ -36,7 +38,7 @@ export default async function getCanvas() {
         fs.writeFileSync(filePath, canvas.toBuffer());
     }
 
-    cachedData = { timestamp, canvas };
+    cachedData = { timestamp, canvas, ctx };
 
     return cachedData;
 }

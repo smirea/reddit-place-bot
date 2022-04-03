@@ -22,6 +22,7 @@ __text = [
         `        id: ${item.id},`,
         `        name: '${item.name}',`,
         `        color: '${item.color}',`,
+        `        rgb: [${item.color.slice(4, -1)}],`,
         `    },`,
     ]).flat(),
     '} as const;',
