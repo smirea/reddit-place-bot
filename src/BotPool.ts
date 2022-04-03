@@ -75,13 +75,18 @@ export default class BotPool {
             }
 
             console.log(chalk.green('Finished all jobs!'));
-            await sleep(2e3); // all
+            await sleep(2e3); // all jobs finished. wait longer for the images to refresh
         }
     }
 
     async getJobs() {
         const jobs: BotJobDescription[] = [];
-        const { ctx } = await getCurrentCanvas();
+        const { ctx, isOldCanvas } = await getCurrentCanvas();
+
+        if (isOldCanvas) {
+            console.log(chalk.yellow('Waiting for a new canvas image (every 10 seconds)'));
+            return [];
+        }
 
         for (const { data, originX, originY } of this.designs) {
             const width = data[0].length;

@@ -62,6 +62,8 @@ export default class Bot {
         );
 
         try {
+            this.cooldownTime = Date.now() + 5 * 60e3;
+
             const { data } = await this.graphql({
                 operationName: 'setPixel',
                 variables: {
@@ -77,11 +79,8 @@ export default class Bot {
                 query: 'mutation setPixel($input: ActInput!) {\n  act(input: $input) {\n    data {\n      ... on BasicMessage {\n        id\n        data {\n          ... on GetUserCooldownResponseMessageData {\n            nextAvailablePixelTimestamp\n            __typename\n          }\n          ... on SetPixelResponseMessageData {\n            timestamp\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n',
             });
 
-            this.cooldownTime = Date.now() + 5 * 60e3;
-
             return data;
         } catch (ex) {
-            this.cooldownTime = Date.now() + 5 * 60e3;
             console.error(ex);
             console.error(ex.response.data);
             return null;

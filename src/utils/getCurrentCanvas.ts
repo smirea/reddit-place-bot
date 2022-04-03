@@ -4,24 +4,33 @@ import { Canvas, createCanvas, loadImage } from 'canvas';
 import config from '../config';
 import path from 'path';
 
-let cachedData: undefined | ({ timestamp: number; } & Return);
+let cachedData: undefined | Return;
 
 type Return = {
+    /**
+     * time the source images were created
+     *
+     * /r/place creates images every 10 seconds, so requesting a newer one before that doesn't make sense
+     */
+    ts: number;
+    /** You probably want to wait for new images to be available and not re-use logic */
+    isOldCanvas: boolean;
     canvas: Canvas;
     ctx: ReturnType<Canvas['getContext']>;
 }
 
+type CanvasApiReturn = {
+    ok: boolean;
+    ts: number;
+    canvas_left: string;
+    canvas_right: string;
+}
+
 export default async function getCurrentCanvas(): Promise<Return> {
-    const seconds = Math.floor(Date.now() / 1000);
-    const timestamp = seconds - seconds % config.canvasRefreshFrequencySeconds;
-
-    // TODO: disabled for now, always re-fetch canvas
-    // if (cachedData?.timestamp === timestamp) return cachedData;
-
-    const res = await axios.get('https://canvas.codes/canvas');
-    const data: { ok: boolean; canvas_left: string; canvas_right: string } = res.data;
+    const { data } = await axios.get<CanvasApiReturn>('https://canvas.codes/canvas');
 
     if (!data.ok) throw new Error('getCavas: not ok :(');
+    if (cachedData?.ts === data.ts) return { ...cachedData, isOldCanvas: true };
 
     const [left, right] = await Promise.all([
         loadImage(data.canvas_left),
@@ -33,13 +42,17 @@ export default async function getCurrentCanvas(): Promise<Return> {
     ctx.drawImage(left, 0, 0);
     ctx.drawImage(right, 1000, 0);
 
-    // not needed for now, but cool to store each image on disk if desired
-    if (false) {
-        const filePath = path.join(config.cacheDir + '/canvas_' + timestamp + '.png');
+    if (config.storeImagesOnDisk) {
+        const filePath = path.join(config.cacheDir + '/canvas_' + data.ts + '.png');
         fs.writeFileSync(filePath, canvas.toBuffer());
     }
 
-    cachedData = { timestamp, canvas, ctx };
+    cachedData = {
+        ts: data.ts,
+        isOldCanvas: false,
+        canvas,
+        ctx,
+    };
 
     return cachedData;
 }

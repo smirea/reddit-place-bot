@@ -42,10 +42,7 @@ const cacheDir = path.join(rootDir, 'cache');
 export default {
     rootDir,
     cacheDir,
-    /**
-     * Do not download the canvas image more that every X seconds
-     */
-    canvasRefreshFrequencySeconds: 15,
+    storeImagesOnDisk: process.env.BOT_STORE_IMAGES_ON_DISK === 'true',
     credentials: (JSON.parse(process.env.BOT_CREDENTIALS!) as string[][])
         .map(([username, password]) => ({
             username,
