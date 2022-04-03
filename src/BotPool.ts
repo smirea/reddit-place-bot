@@ -37,7 +37,7 @@ export default class BotPool {
             await bot.login();
             process.stdout.write(' ✅');
         }
-        process.stdout.write('');
+        process.stdout.write('\n');
     }
 
     async runPoll() {
