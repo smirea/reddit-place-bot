@@ -43,6 +43,12 @@ export default {
     rootDir,
     cacheDir,
     storeImagesOnDisk: process.env.BOT_STORE_IMAGES_ON_DISK === 'true',
+    place: {
+        /** how many 1000 x 1000 images are there on the X axis */
+        width: 2,
+        /** how many 1000 x 1000 images are there on the Y axis */
+        height: 2,
+    },
     credentials: (JSON.parse(process.env.BOT_CREDENTIALS!) as string[][])
         .map(([username, password]) => ({
             username,
