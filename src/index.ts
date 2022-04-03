@@ -9,6 +9,7 @@ async function init() {
         getDesignsFromEnv(),
     );
 
+    await pool.loginAllBots();
     pool.start();
 }
 

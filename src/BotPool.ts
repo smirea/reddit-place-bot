@@ -12,14 +12,33 @@ export default class BotPool {
     constructor(public usernames: string[], public designs: Design[]) {
         this.bots = usernames.map(u => new Bot(u));
 
-        this.runPoll()
+        this.runPoll();
     }
 
-    start() { this.running = true; }
+    start() {
+        console.log(chalk.green('BotPool.start()'));
+        this.running = true;
+    }
 
-    stop() { this.running = false; }
+    stop() {
+        console.log(chalk.red('BotPool.stop()'));
+        this.running = false;
+    }
 
     getAvailableBots() { return this.bots.filter(bot => bot.available); }
+
+    /**
+     * Login all bots before placing tiles to place faster
+     */
+    async loginAllBots() {
+        process.stdout.write(chalk.bold('Logging in all bots:'));
+        for (const bot of this.bots) {
+            process.stdout.write(' ' + bot.credentials.username);
+            await bot.login();
+            process.stdout.write(' ✅');
+        }
+        process.stdout.write('');
+    }
 
     async runPoll() {
         top: while (true) {
