@@ -49,14 +49,16 @@ export default class Bot {
     async setPixel({ x, y, color }: { x: number; y: number; color: keyof typeof COLORS }) {
         // support multiple canvases
         const canvasIndex = Math.floor(x / 1000);
+        const originalX = x;
         x = x % 1000;
 
         console.log(
-            '%s Placing a %s tile on %s x %s',
+            '%s Placing a %s tile on %s x %s (canvas %s)',
             chalk.gray(`[Bot ${this.credentials.username.padEnd(20)}]`),
             chalk.bold(COLORS[color].name.padEnd(12)),
-            chalk.cyan(String(x).padStart(4)),
-            chalk.cyan(String(y).padStart(4))
+            chalk.cyan(String(originalX).padStart(4)),
+            chalk.cyan(String(y).padStart(4)),
+            chalk.cyan(canvasIndex),
         );
 
         try {

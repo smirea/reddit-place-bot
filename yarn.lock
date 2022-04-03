@@ -2157,6 +2157,11 @@ os-browserify@^0.3.0:
   resolved "https://registry.yarnpkg.com/os-browserify/-/os-browserify-0.3.0.tgz#854373c7f5c2315914fc9bfc6bd8238fdda1ec27"
   integrity sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc=
 
+parcel-plugin-case-sensitive-path@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-case-sensitive-path/-/parcel-plugin-case-sensitive-path-1.0.4.tgz#027d032fda15d5e0752908fe0e2228d7fe2e1de1"
+  integrity sha512-oIEIYOxmsOWFPS/gMkLg4Yl6bJWv4TCNlLdDoTLhy7J0oMJ9Z4o2uqq2vS2W1khefWqhxZ0C3Rn/wpGa0b8L9w==
+
 parcel@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/parcel/-/parcel-2.4.1.tgz#e369d0c1a3f383df244eb546d0613d1df51f6b35"
