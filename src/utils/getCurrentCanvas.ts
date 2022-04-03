@@ -15,7 +15,8 @@ export default async function getCurrentCanvas(): Promise<Return> {
     const seconds = Math.floor(Date.now() / 1000);
     const timestamp = seconds - seconds % config.canvasRefreshFrequencySeconds;
 
-    if (cachedData?.timestamp === timestamp) return cachedData;
+    // TODO: disabled for now, always re-fetch canvas
+    // if (cachedData?.timestamp === timestamp) return cachedData;
 
     const res = await axios.get('https://canvas.codes/canvas');
     const data: { ok: boolean; canvas_left: string; canvas_right: string } = res.data;

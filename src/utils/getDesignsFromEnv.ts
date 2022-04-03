@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { DesignData } from 'src/typeDefs';
+import { Design } from 'src/typeDefs';
 
 type DesignConfig = [x: number, y: number, filePath: string];
 
@@ -8,8 +8,8 @@ export default function getDesignsFromEnv() {
     return getDesigns(JSON.parse(process.env.BOT_DESIGNS!) as DesignConfig[]);
 };
 
-export function getDesigns(list: Array<DesignConfig>) {
-    const result: Array<{ originX: number; originY: number; data: DesignData }> = [];
+function getDesigns(list: Array<DesignConfig>): Design[] {
+    const result: Design[] = [];
 
     for (const [index, [originX, originY, filePath]] of list.entries()) {
         if (filePath == null || typeof filePath !== 'string') {
