@@ -4,6 +4,7 @@ import getCurrentCanvas from './utils/getCurrentCanvas';
 import _ from 'lodash';
 import { COLORS } from './utils/constants';
 import chalk from 'chalk';
+import getLogTime from './utils/getLogTime';
 
 export default class BotPool {
     bots: Bot[];
@@ -31,7 +32,7 @@ export default class BotPool {
      * Login all bots before placing tiles to place faster
      */
     async loginAllBots() {
-        process.stdout.write(chalk.bold('Logging in all bots:'));
+        process.stdout.write(getLogTime() + chalk.bold('Logging in all bots:'));
         for (const bot of this.bots) {
             process.stdout.write(' ' + bot.credentials.username);
             await bot.login();

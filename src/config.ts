@@ -1,6 +1,10 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
 import path from 'path';
+import util from 'util';
+
+import dotenv from 'dotenv';
+import axios from 'axios';
+
+import getLogTime from './utils/getLogTime';
 
 dotenv.config();
 
@@ -18,6 +22,17 @@ if (false) {
         console.log('Response', response.status);
         return response
     });
+}
+
+for (const key of ['log', 'info', 'warn', 'error', 'debug'] as const) {
+    const old = console[key];
+    console[key] = (first, ...rest) => {
+        if (typeof first !== 'string') {
+            first = util.inspect(first, { colors: true, depth: 5 });
+        }
+
+        return old(getLogTime() + first, ...rest);
+    }
 }
 
 // NOTE: this will break when/if this project is ever built and run from dist/
