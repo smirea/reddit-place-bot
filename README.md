@@ -4,6 +4,11 @@ Design and apply pixel art to [reddit's /r/place](https://reddit.com/r/place)
 
 ![img](example.png)
 
+##Requirements
+nodejs V.16.0.0
+Corepack for installation of Yarn
+https://yarnpkg.com/getting-started/install
+
 ## Install
 
 **NOTE:** If you are using M1 mac and have issue installing node-canvas, [see this comment](https://github.com/Automattic/node-canvas/issues/1733#issuecomment-808916786);
